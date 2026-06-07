@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LibaryApplication2.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Writer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Summary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Publisher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published_Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <!-- (골뱅이)item.Title 로 기입해도 무관하다.-->
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @item.Writer <!-- 이렇게 말이다.-->
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Summary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publisher)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Published_Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Book_U }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Book_U }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Book_U })
+        </td>
+    </tr>
+}
+
+</table>
