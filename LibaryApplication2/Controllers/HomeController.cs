@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using LibaryApplication2.Context;
 using LibaryApplication2.Models;
@@ -18,22 +16,34 @@ namespace LibaryApplication2.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View(db.Books.ToList());
+            int maxListCount = 3;
+            int pageNum = 1;
+
+            if (Request.QueryString["page"] != null)
+                pageNum = Convert.ToInt32(Request.QueryString["page"]);
+
+            var books = db.Books.OrderBy(x => x.Book_U)
+                        .Skip((pageNum - 1) * maxListCount)
+                        .Take(maxListCount).ToList();
+
+            ViewBag.Page = pageNum;
+            ViewBag.TotalCount = db.Books.Count();
+            ViewBag.MaxListCount = maxListCount;
+
+            return View(books);
         }
 
         // GET: Home/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             // Find 라는 메서드는 매개변수 해당 되는 고유한 ID 하나만 가져오는 기능이다.
             Book book = db.Books.Find(id);
             if (book == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(book);
         }
 
@@ -64,14 +74,12 @@ namespace LibaryApplication2.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             Book book = db.Books.Find(id);
             if (book == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(book);
         }
 
