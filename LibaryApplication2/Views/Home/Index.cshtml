@@ -61,6 +61,22 @@
 }
 
 </table>
+<form style="width:360px;float:left;">
+    <div class="input-group">
+        <span class="input-group-addon">
+            <select name="searchKind" class="form-control">
+                <option value="Title" @(ViewBag.SearchKind == "Title" ? "selected" : ""))>제목</option>
+                <option value="Writer" @(ViewBag.SearchKind == "Writer" ? "selected" : "")>저자</option>
+                <option value="Publisher" @(ViewBag.SearchKind == "Publisher" ? "selected" : "")>출판사</option>
+
+            </select>
+        </span>
+        <input class="form-control" type="text"  name="keyword" value="@(ViewBag.Keyword)"/>
+        <span class="input-group-btn">
+            <button class="btn btn-info" type="submit">검색</button>
+        </span>
+    </div>
+</form>
 
 <div class="text-center">
     <div class="btn-group">
