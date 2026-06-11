@@ -32,10 +32,8 @@ namespace LibaryApplication2.Controllers
 
             if (string.IsNullOrEmpty(keyword))
             {
-                books = db.Books.OrderBy(x => x.Book_U)
-                        .Skip((pageNum - 1) * maxListCount)
-                        .Take(maxListCount).ToList();
-                totalCount = db.Books.Count();
+                books = db.Books.ToList();
+                totalCount = books.Count();
             }
             else
             {
@@ -46,22 +44,23 @@ namespace LibaryApplication2.Controllers
                 switch (searchKind) {
                     case "Title":
                         books = db.Books.Where(x => x.Title.Contains(keyword)).ToList();
-                        totalCount = db.Books.Where(x => x.Title.Contains(keyword)).Count();
+                        totalCount = books.Count();
                         break;
                     case "Writer":
                         books = db.Books.Where(x => x.Writer.Contains(keyword)).ToList();
-                        totalCount = db.Books.Where(x => x.Writer.Contains(keyword)).Count();
+                        totalCount = books.Count();
                         break;
                     case "Publisher":
                         books = db.Books.Where(x => x.Publisher.Contains(keyword)).ToList();
-                        totalCount = db.Books.Where(x => x.Publisher.Contains(keyword)).Count();
+                        totalCount = books.Count();
                         break;
                 }
+                
+            }
 
-                books = books.OrderBy(x => x.Book_U)
+            books = books.OrderBy(x => x.Book_U)
                     .Skip((pageNum - 1) * maxListCount)
                     .Take(maxListCount).ToList();
-            }
 
             ViewBag.Page = pageNum;
             ViewBag.TotalCount = totalCount;
